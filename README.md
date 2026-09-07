@@ -1,4 +1,4 @@
-# dotnet-app-mvc
+# dotnet-app-kubernetes
 
 ## setup
 
