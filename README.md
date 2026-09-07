@@ -3,7 +3,7 @@
 ## setup
 
 ```sh
-mkdir dotnet-app-mvc && cd dotnet-app-mvc
+mkdir dotnet-app-kubernetes && cd dotnet-app-kubernetes
 ```
 
 ```sh
