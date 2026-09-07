@@ -6,6 +6,7 @@
 [Log]/
 [Ll]ogs/
 [Tt]est[Rr]esult*/
+[Oo]ut/
 
 ## #######################################################################
 ## Frontend Assets & Node (Common in MVC for bundlers/minifiers)
