@@ -53,7 +53,7 @@ stages:
     displayName: Deploy
     pool:
       vmImage: $(vmImageName)
-    environment: 'dotnetappkubernetes-1963.dev-dotnet-app-cluster'
+    environment: 'dotnetappkubernetes.dev-dotnet-app-cluster'
     strategy:
       runOnce:
         deploy:
