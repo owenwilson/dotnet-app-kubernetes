@@ -17,3 +17,10 @@ spec:
           image: bycentineldotnetregistry.azurecr.io/dotnetappkubernetes
           ports:
           - containerPort: 80
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
