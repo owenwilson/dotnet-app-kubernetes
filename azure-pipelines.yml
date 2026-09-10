@@ -71,7 +71,8 @@ stages:
             inputs:
               action: deploy
               connectionType: 'kubernetesServiceConnection'
-              azureSubscriptionConnection: 'dotnet-app-cluster-kubernetes-dev-dotnet-app-cluster'
+              # azureSubscriptionConnection: 'dotnet-app-cluster-kubernetes-dev-dotnet-app-cluster'
+              kubernetesServiceConnection: 'dotnet-app-cluster-kubernetes-dev-dotnet-app-cluster'
               azureResourceGroup: 'bycentinel-example-group'
               kubernetesCluster: 'dotnet-app-cluster-kubernetes'
               namespace: dev-dotnet-app-cluster
