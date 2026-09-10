@@ -158,6 +158,8 @@ aks-agentpool2-XXXXXXXX-vms1        Ready                      <none>   16h   v1
 kubectl drain aks-agentpool-XXXXXXXX-vmss000000 --ignore-daemonsets --delete-emptydir-data
 ```
 
+- Check it in the Azure web interface
+
 - After running the “drain kubernetes” command, perform the migration to the agent pool that is in the “ready” state. The migration
 
 ## references
@@ -166,3 +168,4 @@ kubectl drain aks-agentpool-XXXXXXXX-vmss000000 --ignore-daemonsets --delete-emp
 - check out [api rest with dotnet core](https://medium.com/nbellocam-es/creando-una-api-rest-con-asp-net-core-desde-cero-fc58924395fd)
 - check out [dotnet-8-app-to-azure-kubernetes](https://dev.to/kosisochukwu_ugochukwu_a2/deploy-a-net-8-app-to-azure-kubernetes-service-aks-tutorial-guide-423c)
 - check out [kubernetes manifest azure pipeline](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/kubernetes-manifest-v1?view=azure-pipelines)
+- check out [deploy kubernetes azure devops](https://learn.microsoft.com/en-us/azure/devops/pipelines/release/deploy-kubernetes?view=azure-devops)

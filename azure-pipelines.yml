@@ -6,7 +6,6 @@ resources:
 - repo: self
 
 variables:
-
   # Container registry service connection established during pipeline creation
   dockerRegistryServiceConnection: 'bycentinelDotnetRegistry'
   imageRepository: 'dotnetappkubernetes'
@@ -58,6 +57,7 @@ stages:
       runOnce:
         deploy:
           steps:
+          # pull docker image
           - task: KubernetesManifest@1
             displayName: Create imagePullSecret
             inputs:
@@ -65,10 +65,16 @@ stages:
               secretName: $(imagePullSecret)
               dockerRegistryEndpoint: $(dockerRegistryServiceConnection)
 
-          - task: KubernetesManifest@0
+          # deploy to cluster azure cloud
+          - task: KubernetesManifest@1
             displayName: Deploy to Kubernetes cluster
             inputs:
               action: deploy
+              connectionType: azureResourceManager
+              azureSubscriptionConnection: 'dotnet-app-cluster-kubernetes-dev-dotnet-app-cluster'
+              azureResourceGroup: 'bycentinel-example-group'
+              kubernetesCluster: 'dotnet-app-cluster-kubernetes'
+              namespace: dev-dotnet-app-cluster
               manifests: |
                 $(Pipeline.Workspace)/manifests/deployment.yml
                 $(Pipeline.Workspace)/manifests/service.yml
@@ -76,6 +82,25 @@ stages:
                 $(imagePullSecret)
               containers: |
                 $(containerRegistry)/$(imageRepository):$(tag)
+
+          # configuaration example taken from the azure pipilines documentation
+          # - task: KubernetesManifest@1
+          #   displayName: Deploy to Kubernetes cluster
+          #   inputs:
+          #     action: deploy
+              # connectionType: azureResourceManager
+              # azureSubscriptionConnection: 'Kubernetes Cluster Connection'
+              # azureResourceGroup: 'tailspin-space-game-rg'
+              # kubernetesCluster: 'tailspinspacegame-24591'
+              # namespace: 'default'
+              # manifests: |
+              #   $(Pipeline.Workspace)/manifests/deployment.yml
+              #   $(Pipeline.Workspace)/manifests/service.yml
+              # imagePullSecrets: |
+              #   $(imagePullSecret)
+              # containers: |
+              #   $(RegistryName)/$(webRepository):$(tag)
+              #   $(RegistryName)/$(leaderboardRepository):$(tag)
 
   # - deployment: DeployPullRequest
   #   displayName: Deploy Pull request
