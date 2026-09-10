@@ -100,8 +100,69 @@ git pull azure main
 
 - check ou [use ssh keys to authenticate](https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops)
 
+## aks configuration
+
+```sh
+az login
+```
+
+- get kube config
+- **resource group:**`resource-name-cluster-kubernetes-azure-cloud`
+- **cluster kubernetes name:**`name-cluster-kubernetes-azure-cloud`
+
+```sh
+az aks get-credentials --resource-group resource-name-cluster-kubernetes-azure-cloud --name name-cluster-kubernetes-azure-cloud
+```
+
+- output
+
+```sh
+Merged "name-cluster-kubernetes-azure-cloud" as current context in /home/user/.kube/config
+```
+
+- agentpool alert, need more resources
+- migration agentpool to new agentpool
+- use cordon and drain
+
+```sh
+kubectl get nodes
+```
+
+- output
+
+```sh
+kubectl get nodes
+NAME                                STATUS                     ROLES    AGE   VERSION
+aks-agentpool-XXXXXXXX-vmss000000   Ready   <none>   46h   v1.35.7
+aks-agentpool2-XXXXXXXX-vms1        Ready                      <none>   16h   v1.35.7
+```
+
+- isolate pod, before migration and use kubectl cordon
+
+```sh
+kubectl cordon aks-agentpool-XXXXXXXX-vmss000000
+```
+
+- output
+
+```sh
+kubectl get nodes
+NAME                                STATUS                     ROLES    AGE   VERSION
+aks-agentpool-XXXXXXXX-vmss000000   Ready,SchedulingDisabled   <none>   46h   v1.35.7
+aks-agentpool2-XXXXXXXX-vms1        Ready                      <none>   16h   v1.35.7
+```
+
+- use drain for migration complete
+
+```sh
+kubectl drain aks-agentpool-XXXXXXXX-vmss000000 --ignore-daemonsets --delete-emptydir-data
+```
+
+- After running the “drain kubernetes” command, perform the migration to the agent pool that is in the “ready” state. The migration
+
 ## references
 
 - check out [aks hybrid edge](https://learn.microsoft.com/en-us/azure/aks-hybrid-edge/windows-server/deploy-windows-application)
 - check out [api rest with dotnet core](https://medium.com/nbellocam-es/creando-una-api-rest-con-asp-net-core-desde-cero-fc58924395fd)
 - check out [dotnet-8-app-to-azure-kubernetes](https://dev.to/kosisochukwu_ugochukwu_a2/deploy-a-net-8-app-to-azure-kubernetes-service-aks-tutorial-guide-423c)
+- check out [kubernetes manifest azure pipeline](https://learn.microsoft.com/en-us/azure/devops/pipelines/tasks/reference/kubernetes-manifest-v1?view=azure-pipelines)
